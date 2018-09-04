@@ -1,0 +1,26 @@
+{
+  "name": "nryh-discord-dice-roller",
+  "version": "1.0.0",
+  "description": "Discord roller for Never Rest Your Head RPG",
+  "main": "index.js",
+  "scripts": {
+    "start": "node bot.js"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "Never",
+    "Rest",
+    "Your",
+    "Head",
+    "RPG",
+    "dice"
+  ],
+  "author": "SkyJedi",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "discord.js": "^11.4.2",
+    "lodash": "^4.17.10",
+    "seedrandom": "^2.4.4"
+  }
+}
