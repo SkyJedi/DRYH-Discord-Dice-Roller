@@ -1,11 +1,11 @@
 {
-  "name": "nryh-discord-dice-roller",
+  "name": "dryh-discord-dice-roller",
   "version": "1.0.0",
   "description": "Discord roller for Never Rest Your Head RPG",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SkyJedi/NRYH-Discord-Dice-Roller"
+    "url": "git+https://github.com/SkyJedi/DRYH-Discord-Dice-Roller"
   },
   "scripts": {
     "start": "node index.js"
@@ -13,7 +13,7 @@
   "keywords": [
     "discord",
     "bot",
-    "Never",
+    "dont",
     "Rest",
     "Your",
     "Head",
