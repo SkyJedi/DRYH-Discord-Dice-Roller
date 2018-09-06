@@ -1,4 +1,4 @@
-# SWEotE-Discord-Dice-Roller
+# NRYH-Discord-Dice-Roller
 CREDIT: SkyJedi made dis
 
 A Discord Bot Roller for the DRYH RPG
