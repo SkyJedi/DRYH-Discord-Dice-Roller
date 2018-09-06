@@ -54,7 +54,11 @@ client.on('message', message => {
 			break;
 		case 'roll':
 		case 'r':
-			modules.roll(client, message, params);
+			modules.roll(message, params);
+			break;
+		case 'coin':
+		case 'c':
+			modules.coin(message, params);
 			break;
 	}
 }, error => console.error(error));

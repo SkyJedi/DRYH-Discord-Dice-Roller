@@ -1,9 +1,11 @@
 const dice = require('../functions').dice;
 const config = require('../config');
-const order = ['discipline', 'exhaustion', 'madness', 'pain'];
+const order = ['discipline', 'madness', 'exhaustion', 'pain', 'assistance'];
 const _ = require('lodash');
+const jsonfile = require('jsonfile');
+const file = 'data/diceResult.json';
 
-const roll = (client, message, params) => {
+const roll = (message, params) => {
 	let diceResult, diceOrder;
 	if (!diceResult) diceResult = initDiceResult();
 	if (!params[0]) {
@@ -17,13 +19,17 @@ const roll = (client, message, params) => {
 	diceOrder.forEach(die => {
 		if (!diceResult.roll[die]) diceResult.roll[die] = [];
 		diceResult.roll[die].push(dice(6));
-		diceResult.roll[die].sort();
+		diceResult.roll[die].sort().reverse();
 	});
 
-	//counts the symbols rolled
-	diceResult.results = countSymbols(client, message, diceResult.roll);
+	//get dominant
+	diceResult.results.dominant = getDominant(diceResult.roll);
 
-	printResults(client, message, diceResult.results);
+	//counts the symbols rolled and builds the results text
+	diceResult.results = countSymbols(message, diceResult);
+	//write diceResult to file
+	jsonfile.writeFileSync(file, diceResult);
+	printResults(message, diceResult.results);
 };
 
 //init diceResult
@@ -34,6 +40,7 @@ const initDiceResult = () => {
 			exhaustion: [],
 			madness: [],
 			pain: [],
+			assistance: [],
 		},
 		results: {
 			success: 0,
@@ -95,6 +102,11 @@ const processType = (message, params) => {
 			case 'b':
 				finalOrder.push('pain');
 				break;
+			case 'a':
+			case 'assist':
+			case 'assistance':
+				finalOrder.push('assistance');
+				break;
 			default:
 				break;
 		}
@@ -102,12 +114,9 @@ const processType = (message, params) => {
 	return finalOrder;
 };
 
-const countSymbols = (client, message, diceResult) => {
-	let results = {
-		success: 0,
-		dominant: '',
-		text: '',
-	};
+const countSymbols = (message, diceResult) => {
+	let results = {dominant: diceResult.results.dominant, success: 0, text: ''};
+	diceResult = diceResult.roll;
 	Object.keys(diceResult).sort((a, b) => order.indexOf(a) - order.indexOf(b)).forEach(type => {
 		if (diceResult[type].length > 0) {
 			results.text += `**${_.upperFirst(type)}:** \`(${diceResult[type].join(', ')})\`\n`;
@@ -115,15 +124,55 @@ const countSymbols = (client, message, diceResult) => {
 			else results.success -= diceResult[type].filter(die => die < 4).length;
 		}
 	});
-	if (results.success >= 0) results.text += `Player succeeds with ${results.success}, `;
-	else results.text += `GM succeeds with ${-results.success}, `;
+
+	if (results.success >= 0) results.text += `**Player** succeeds with **${results.success}**, `;
+	else results.text += `**GM** succeeds with **${-results.success}**, `;
+
+	results.text += `**${_.upperFirst(results.dominant)}** is dominant.`;
+
 	if (results.text.length > 1500) results.text = 'Too many dice to display.';
 	return results;
 };
 
-const printResults = (client, message, diceResult) => {
+const getDominant = (diceResult) => {
+	let maxLength = [];
+	order.slice(0, -1).forEach(type => maxLength.push(diceResult[type].length));
+	maxLength = Math.max(...maxLength);
+
+	let currentArray = order.slice(0, -1);
+	for (let i = 0; maxLength >= i; i++) {
+		let compare = [], nextArray = [];
+		currentArray.forEach(type => diceResult[type][i] && compare.push(diceResult[type][i]));
+		compare = Math.max(...compare);
+
+		currentArray.forEach(type => (diceResult[type][i] >= compare) && nextArray.push(type));
+
+		if (1 === nextArray.length) return [...nextArray];
+
+		if (!nextArray.length) {
+			switch (true) {
+				case currentArray.includes('discipline'):
+					return 'discipline';
+				case currentArray.includes('madness'):
+					return 'madness';
+				case currentArray.includes('exhaustion'):
+					return 'exhaustion';
+				case currentArray.includes('pain'):
+					return 'pain';
+				default:
+					break;
+			}
+			break;
+		}
+		currentArray = nextArray
+	}
+};
+
+const printResults = (message, diceResult) => {
 	if (diceResult.text) message.channel.send(diceResult.text).catch(error => console.error(error));
 	else message.reply("No dice rolled.");
 };
 
-module.exports = roll;
+module.exports = {roll, countSymbols, getDominant, printResults};
+
+
