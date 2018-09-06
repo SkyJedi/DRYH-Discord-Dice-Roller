@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Discord roller for Never Rest Your Head RPG",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SkyJedi/NRYH-Discord-Dice-Roller"
+  },
   "scripts": {
     "start": "node bot.js"
   },
