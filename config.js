@@ -1,7 +1,7 @@
 const config = {
-	token: '',
-	prefix: '.',
-	maxRollsPerDie: 1000,
+	token: 'BOT TOKEN',
+	prefix: '!',
+	maxRollsPerDie: 100,
 };
 
 module.exports = config;
