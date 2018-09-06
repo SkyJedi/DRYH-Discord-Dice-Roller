@@ -42,8 +42,7 @@ A Discord Bot Roller for the DRYH RPG
 4. Open config.js with a text editor program of your choice (wordpad > notepad).
 5. Replace "BOT TOKEN" with your bot token you copied in step 2.6
 6. Save file
-7. upload custom emoji from emoji folder to the server.  https://support.discordapp.com/hc/en-us/articles/207619737-Adding-Emoji-Magic
-8. Your bot is now configured and ready to launch.
+7. Your bot is now configured and ready to launch.
 
 ## Running the bot
 
@@ -62,7 +61,7 @@ To update the bot, Just execute the file "UPDATE.bat" on a windows or "UPDATE.co
   2. prefix
     - this is the symbol the bot uses to recognize commands. This is set to "!" by default
   3. maxRollsPerDie
-    - This is the max number per dice type that can be rolled in a given roll command. Set to 20 by default. Commands that don't respect the roll limit will be aborted and send an error message to the discord chat. 
+    - This is the max number per dice type that can be rolled in a given roll command. Set to 100 by default. Commands that don't respect the roll limit will be aborted and send an error message to the discord chat. 
 
 
 ## Patrons
