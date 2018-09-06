@@ -8,7 +8,7 @@
     "url": "git+https://github.com/SkyJedi/NRYH-Discord-Dice-Roller"
   },
   "scripts": {
-    "start": "node bot.js"
+    "start": "node index.js"
   },
   "keywords": [
     "discord",
