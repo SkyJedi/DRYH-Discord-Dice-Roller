@@ -1,4 +1,4 @@
-exports.help = require('./help');
+exports.help = require('./help').help;
 exports.roll = require('./roll').roll;
 exports.countSymbols = require('./roll').countSymbols;
 exports.getDominant = require('./roll').getDominant;

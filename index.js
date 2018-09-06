@@ -60,5 +60,9 @@ client.on('message', message => {
 		case 'c':
 			modules.coin(message, params);
 			break;
+		case 'help':
+		case 'h':
+			modules.help(message, params[0]);
+			break;
 	}
 }, error => console.error(error));
